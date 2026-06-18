@@ -11,6 +11,8 @@ Write comprehensive implementation plans assuming the engineer has zero context 
 
 Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
 
+**Default language:** Write plan prose in Simplified Chinese unless the user explicitly asks for another language. Keep code, identifiers, file paths, commands, API names, and exact error strings in English.
+
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
 **Context:** If working in an isolated worktree, it should have been created via the `superpowers:using-git-worktrees` skill at execution time.
@@ -72,6 +74,15 @@ independently testable deliverable.
 naming and copy rules, platform requirements — one line each, with exact
 values copied verbatim from the spec. Every task's requirements implicitly
 include this section.]
+
+**Planned File Touches:**
+- Create: `exact/path/to/new-file.ext`
+- Modify: `exact/path/to/existing-file.ext`
+- Test: `tests/exact/path/to/test_file.py`
+
+**Concurrency Risk:**
+- Known overlapping plans/goals: none / `path/to/other-plan.md` touches `same/file.ext`
+- Execution recommendation: safe in current workspace / ask user to choose serial execution or isolated worktree before implementation
 
 ---
 ```
