@@ -1,13 +1,13 @@
 ---
 name: writing-plans
-description: Use when you have a spec or requirements for a multi-step task, before touching code
+description: Use when you have a spec or requirements for a multi-step task before touching code. Prefer appending a concise implementation checklist to an already-reviewed spec; create a standalone plan only for handoff, high-risk, or broad execution.
 ---
 
 # Writing Plans
 
 ## Overview
 
-Write comprehensive implementation plans assuming the engineer has zero context for our codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to test it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
+Turn approved specs or requirements into executable work. Default to the smallest planning artifact that keeps implementation safe: append a concise checklist to the reviewed spec when execution will happen in the same context; write a standalone implementation plan only when the work needs handoff, isolation, or detailed sequencing.
 
 Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
 
@@ -17,8 +17,37 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Context:** If working in an isolated worktree, it should have been created via the `superpowers:using-git-worktrees` skill at execution time.
 
-**Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
-- (User preferences for plan location override this default)
+## Planning Artifact Decision
+
+Prefer appending to the existing spec when:
+- The spec has already been reviewed or accepted.
+- The same session or same worker will implement it soon.
+- The checklist can stay short: roughly 30-40 lines or less.
+- The work does not need multiple independent workers, multiple commits, or risky migration sequencing.
+
+Append this section to the spec:
+
+```markdown
+## Implementation Checklist
+
+- [ ] [First concrete change, with exact file path]
+- [ ] [Second concrete change, with exact file path]
+- [ ] Run: `[smallest verification command]`
+
+Deferred / out of scope:
+- [Anything intentionally not handled]
+```
+
+Write a standalone plan only when any of these are true:
+- The implementation will be handed to another agent, another thread, or an isolated worker.
+- The work crosses multiple subsystems, repositories, or more than about five files.
+- It includes schema or data migration, queue/upload behavior, irreversible operations, or other high-risk sequencing.
+- It needs multiple commits or explicit checkpoint reviews.
+- The appended checklist would become a mini-plan.
+- The user explicitly asks for a separate plan.
+
+**Save standalone plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+- User preferences for plan location or inline-spec planning override this default.
 
 ## Scope Check
 
@@ -53,9 +82,9 @@ independently testable deliverable.
 - "Run the tests and make sure they pass" - step
 - "Commit" - step
 
-## Plan Document Header
+## Standalone Plan Document Header
 
-**Every plan MUST start with this header:**
+When writing a standalone plan, start with this header:
 
 ```markdown
 # [Feature Name] Implementation Plan
@@ -166,7 +195,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 ## Execution Handoff
 
-After saving the plan, offer execution choice:
+After saving a standalone plan, offer execution choice:
 
 **"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Two execution options:**
 
