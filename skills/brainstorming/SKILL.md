@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+description: "Use when a feature or behavior change has unresolved requirements, material UX or architecture tradeoffs, or multiple plausible implementations that would change cost, risk, or acceptance criteria. Do not use for small, explicit, low-risk changes with one obvious implementation path."
 ---
 
 # Brainstorming Ideas Into Designs
@@ -9,13 +9,31 @@ Help turn ideas into fully formed designs and specs through natural collaborativ
 
 Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
 
+## Entry Gate
+
+Use this skill when at least one material design decision remains after reading the request and local context:
+
+- The goal, behavior, constraints, or acceptance criteria are still unclear.
+- Multiple plausible approaches would materially change UX, architecture, contracts, security, cost, or risk.
+- The change introduces a new API, schema, dependency, permission boundary, external side effect, or architectural pattern that needs user approval.
+- The user explicitly asks to explore or compare designs before implementation.
+
+Do not use this skill when all of the following are true:
+
+- The requested behavior and acceptance criteria are explicit.
+- The change is localized and follows an existing project pattern.
+- One implementation path is clearly preferable.
+- It adds no new API, schema, dependency, permission boundary, security decision, external side effect, or architectural pattern.
+
+If only one minor detail such as label, placement, or display condition is missing, ask one concise question and then implement after the user answers. Do not enter the full brainstorming workflow. If the task matches this exclusion, stop using this skill and continue with the normal implementation workflow.
+
 <HARD-GATE>
-Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
+Once the Entry Gate matches, do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it.
 </HARD-GATE>
 
-## Anti-Pattern: "This Is Too Simple To Need A Design"
+## Anti-Pattern: "This Design Decision Is Too Small To Discuss"
 
-Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
+Once the entry gate matches, do not bypass design because the implementation looks small. A short diff can still hide material UX, contract, security, or architecture decisions. The design can be brief, but you MUST present it and get approval.
 
 ## Checklist
 
