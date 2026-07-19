@@ -1,53 +1,28 @@
 ---
 name: writing-plans
-description: Use when you have a spec or requirements for a multi-step task before touching code. Prefer appending a concise implementation checklist to an already-reviewed spec; create a standalone plan only for handoff, high-risk, or broad execution.
+description: Use when an approved Spec needs implementation planning because the work is multi-step, broad, high-risk, or requires handoff. Do not use for simple direct implementation or to repair an incomplete Spec.
 ---
 
 # Writing Plans
 
 ## Overview
 
-Turn approved specs or requirements into executable work. Default to the smallest planning artifact that keeps implementation safe: append a concise checklist to the reviewed spec when execution will happen in the same context; write a standalone implementation plan only when the work needs handoff, isolation, or detailed sequencing.
+Turn approved Specs into executable implementation plans for work that needs detailed sequencing.
 
 Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
-
-**Default language:** Write plan prose in Simplified Chinese unless the user explicitly asks for another language. Keep code, identifiers, file paths, commands, API names, and exact error strings in English.
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
 **Context:** If working in an isolated worktree, it should have been created via the `superpowers:using-git-worktrees` skill at execution time.
 
-## Planning Artifact Decision
+## Entry Gate
 
-Prefer appending to the existing spec when:
-- The spec has already been reviewed or accepted.
-- The same session or same worker will implement it soon.
-- The checklist can stay short: roughly 30-40 lines or less.
-- The work does not need multiple independent workers, multiple commits, or risky migration sequencing.
+Only continue when the Spec is approved and execution actually needs a Plan. If the change is local, has one obvious path, adds no schema/API/dependency/permission/external side effect, and needs no migration, risky ordering, multiple commits, or handoff, implement it directly.
 
-Append this section to the spec:
+If there is no approved Spec, or requirements are missing, conflicting, untestable, or would force the Plan to invent behavior, invoke `writing-specs` and stop planning until the Spec is approved.
 
-```markdown
-## Implementation Checklist
-
-- [ ] [First concrete change, with exact file path]
-- [ ] [Second concrete change, with exact file path]
-- [ ] Run: `[smallest verification command]`
-
-Deferred / out of scope:
-- [Anything intentionally not handled]
-```
-
-Write a standalone plan only when any of these are true:
-- The implementation will be handed to another agent, another thread, or an isolated worker.
-- The work crosses multiple subsystems, repositories, or more than about five files.
-- It includes schema or data migration, queue/upload behavior, irreversible operations, or other high-risk sequencing.
-- It needs multiple commits or explicit checkpoint reviews.
-- The appended checklist would become a mini-plan.
-- The user explicitly asks for a separate plan.
-
-**Save standalone plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
-- User preferences for plan location or inline-spec planning override this default.
+**Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+- (User preferences for plan location override this default)
 
 ## Scope Check
 
@@ -82,9 +57,9 @@ independently testable deliverable.
 - "Run the tests and make sure they pass" - step
 - "Commit" - step
 
-## Standalone Plan Document Header
+## Plan Document Header
 
-When writing a standalone plan, start with this header:
+**Every plan MUST start with this header:**
 
 ```markdown
 # [Feature Name] Implementation Plan
@@ -103,15 +78,6 @@ When writing a standalone plan, start with this header:
 naming and copy rules, platform requirements — one line each, with exact
 values copied verbatim from the spec. Every task's requirements implicitly
 include this section.]
-
-**Planned File Touches:**
-- Create: `exact/path/to/new-file.ext`
-- Modify: `exact/path/to/existing-file.ext`
-- Test: `tests/exact/path/to/test_file.py`
-
-**Concurrency Risk:**
-- Known overlapping plans/goals: none / `path/to/other-plan.md` touches `same/file.ext`
-- Execution recommendation: safe in current workspace / ask user to choose serial execution or isolated worktree before implementation
 
 ---
 ```
@@ -195,7 +161,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 ## Execution Handoff
 
-After saving a standalone plan, offer execution choice:
+After saving the plan, offer execution choice:
 
 **"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Two execution options:**
 

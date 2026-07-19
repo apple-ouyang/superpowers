@@ -1,6 +1,6 @@
 ---
 name: requesting-code-review
-description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements. Includes adversarial root-cause / failure-mode review for behavior, stability, external-input, queue, permission, release, or long-lived rule changes.
+description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
 ---
 
 # Requesting Code Review
@@ -15,7 +15,6 @@ Dispatch a code reviewer subagent to catch issues before they cascade. The revie
 - After each task in subagent-driven development
 - After completing major feature
 - Before merge to main
-- When a change affects runtime behavior, system stability, data flow, permissions, queues, external inputs, launch behavior, or long-lived agent rules
 
 **Optional but valuable:**
 - When stuck (fresh perspective)
@@ -45,17 +44,6 @@ Dispatch a `general-purpose` subagent, filling the template at [code-reviewer.md
 - Fix Important issues before proceeding
 - Note Minor issues for later
 - Push back if reviewer is wrong (with reasoning)
-
-## Adversarial Review Mode
-
-Use adversarial review mode for behavior changes, complex bug fixes, stability work, security-sensitive paths, external input handling, queues, retries, permissions, release gates, and any case where a thin patch might hide the root cause.
-
-In this mode, tell the reviewer to:
-
-- Start from first principles: for bug fixes, restate the real failure mechanism; for features, rules, or behavior changes, restate the target contract and evidence before judging the diff.
-- Try to break the system with malicious or extreme inputs, oversized payloads, future or malformed timestamps, resource exhaustion, concurrency, retries, permission gaps, and upstream/downstream contract violations.
-- Block the work if the diff only fixes the surface symptom, adds a fallback that hides broken data, or cannot explain why sibling paths or adjacent workflows will not fail the same way.
-- Return a separate `root-cause / failure-mode gate: PASS/BLOCK/SKIPPED` verdict. Use `SKIPPED` only for pure copy/docs/formatting changes with no behavior impact.
 
 ## Example
 

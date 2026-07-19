@@ -66,15 +66,6 @@ Subagent (general-purpose):
     - Documentation complete?
     - No obvious bugs?
 
-    **Adversarial review / root cause / failure mode:**
-    - For bug fixes, what is the real failure mechanism this change claims to fix?
-    - For features, rules, or behavior changes, what target contract does this change establish?
-    - Does the diff fix the shared contract or root cause, or only a thin surface layer?
-    - What malicious input, oversized payload, malformed/future timestamp, resource exhaustion,
-      concurrency, retry, permission, or upstream/downstream contract case could break it?
-    - Are fallbacks or permissive null checks hiding broken data or contract violations?
-    - Would sibling callers, adjacent paths, or adjacent workflows still fail in the same way?
-
     ## Calibration
 
     Categorize issues by actual severity. Not everything is Critical.
@@ -115,8 +106,6 @@ Subagent (general-purpose):
 
     **Ready to merge?** [Yes | No | With fixes]
 
-    **Root-cause / failure-mode gate:** [PASS | BLOCK | SKIPPED]
-
     **Reasoning:** [1-2 sentence technical assessment]
 
     ## Critical Rules
@@ -127,7 +116,6 @@ Subagent (general-purpose):
     - Explain WHY each issue matters
     - Acknowledge strengths
     - Give a clear verdict
-    - Block thin patches that do not explain or fix the root cause
 
     **DON'T:**
     - Say "looks good" without checking
