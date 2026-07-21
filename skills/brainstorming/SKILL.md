@@ -7,7 +7,7 @@ description: "Use when a feature or behavior change has unresolved requirements,
 
 Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
-Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
+Start by understanding the current project context, then ask all currently known material questions in one decision packet. Give a recommended answer and the tradeoff for each question so the user can approve or correct the design efficiently. Once you understand what you're building, present the complete design and get one consolidated approval.
 
 ## Entry Gate
 
@@ -41,9 +41,9 @@ You MUST create a task for each of these items and complete them in order:
 
 1. **Explore project context** — check files, docs, recent commits
 2. **Offer the visual companion just-in-time** — NOT upfront. The first time a question would genuinely be clearer shown than described, offer it then (its own message); on approval its browser tab opens for you. If no visual question ever arises, never offer it. See the Visual Companion section below.
-3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
+3. **Ask clarifying questions** — ask all known material questions together, with your recommendation for each
 4. **Propose 2-3 approaches** — with trade-offs and your recommendation
-5. **Present design** — in sections scaled to their complexity, get user approval after each section
+5. **Present design** — present the complete design in sections scaled to their complexity, then get one consolidated approval
 6. **Transition to specification** — invoke `writing-specs`; it owns the written Spec, review gate, and direct-implementation versus Plan decision
 
 ## Process Flow
@@ -53,15 +53,15 @@ digraph brainstorming {
     "Explore project context" [shape=box];
     "Ask clarifying questions" [shape=box];
     "Propose 2-3 approaches" [shape=box];
-    "Present design sections" [shape=box];
+    "Present complete design" [shape=box];
     "User approves design?" [shape=diamond];
     "Invoke writing-specs skill" [shape=doublecircle];
 
     "Explore project context" -> "Ask clarifying questions";
     "Ask clarifying questions" -> "Propose 2-3 approaches";
-    "Propose 2-3 approaches" -> "Present design sections";
-    "Present design sections" -> "User approves design?";
-    "User approves design?" -> "Present design sections" [label="no, revise"];
+    "Propose 2-3 approaches" -> "Present complete design";
+    "Present complete design" -> "User approves design?";
+    "User approves design?" -> "Present complete design" [label="no, revise"];
     "User approves design?" -> "Invoke writing-specs skill" [label="yes"];
 }
 ```
@@ -75,10 +75,12 @@ digraph brainstorming {
 - Check out the current project state first (files, docs, recent commits)
 - Before asking detailed questions, assess scope: if the request describes multiple independent subsystems (e.g., "build a platform with chat, file storage, billing, and analytics"), flag this immediately. Don't spend questions refining details of a project that needs to be decomposed first.
 - If the project is too large for a single spec, help the user decompose into sub-projects: what are the independent pieces, how do they relate, what order should they be built? Then brainstorm the first sub-project through the normal design flow. Each sub-project gets its own Spec and only adds a Plan when execution needs one.
-- For appropriately-scoped projects, ask questions one at a time to refine the idea
-- Prefer multiple choice questions when possible, but open-ended is fine too
-- Only one question per message - if a topic needs more exploration, break it into multiple questions
-- Focus on understanding: purpose, constraints, success criteria
+- For appropriately-scoped projects, collect every currently known question whose answer would materially change scope, UX, architecture, contracts, security, cost, risk, or acceptance criteria
+- Ask those questions together in one concise decision packet; group related questions so the user can see interactions between choices
+- Prefer 2-3 mutually exclusive options where possible. Put your recommended option first and explain its concrete impact or tradeoff
+- State the defaults you will use for lower-risk details instead of asking the user to decide implementation trivia
+- After the user answers, ask another packet only when their answers reveal genuinely new material questions that could not have been identified earlier; do not serialize questions that were already knowable
+- Focus on understanding: purpose, constraints, success criteria, user-review boundaries, and what can safely remain an implementation detail
 
 **Exploring approaches:**
 
@@ -90,7 +92,7 @@ digraph brainstorming {
 
 - Once you believe you understand what you're building, present the design
 - Scale each section to its complexity: a few sentences if straightforward, up to 200-300 words if nuanced
-- Ask after each section whether it looks right so far
+- Present all sections together, then ask once whether the complete design is approved; if not, revise the affected sections and present the coherent design again
 - Cover: architecture, components, data flow, error handling, testing
 - Be ready to go back and clarify if something doesn't make sense
 
@@ -113,8 +115,8 @@ Invoke `writing-specs`. Do not write the Spec or choose the implementation route
 
 ## Key Principles
 
-- **One question at a time** - Don't overwhelm with multiple questions
-- **Multiple choice preferred** - Easier to answer than open-ended when possible
+- **One decision packet at a time** - Ask all known material questions together, but omit low-risk implementation trivia
+- **Recommend, don't just enumerate** - Put your recommended option first and explain the impact for every material question
 - **YAGNI ruthlessly** - Remove unnecessary features from all designs
 - **Explore alternatives** - Always propose 2-3 approaches before settling
 - **Incremental validation** - Present design, get approval before moving on
